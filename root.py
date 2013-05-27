@@ -3,8 +3,8 @@ from schemesettings import schemePresets, schemeDefault
 from urllib import quote_plus
 
 class RootResource(resource.Resource):
-    def __init__(self, queue):
-        self.queue = queue
+    def __init__(self, interface):
+        self.interface = interface
     def render_GET(self, request):
         out = """
 
