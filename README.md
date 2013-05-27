@@ -5,6 +5,7 @@ Raspberry Pi ServoBlaster RGB LED strip control magic script.
 
 Methods
 =======
+(This is really out of date now.)
 ```
 /flash?r=0&g=0&b=0&times=1&delay=1
 /scheme?preset=1
