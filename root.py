@@ -7,41 +7,103 @@ class RootResource(resource.Resource):
         self.queue = queue
     def render_GET(self, request):
         out = """
-<LINK href="http://bgrins.github.com/spectrum/spectrum.css" rel="stylesheet" type="text/css">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="http://bgrins.github.com/spectrum/spectrum.js"></script>
-<style>
-body{background-color:black;}
-</style>
-<input type='text' class="basic" id="pick"/>
-<br />
-<div style="background-color:white">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/spectrum.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="ico/favicon.png">
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="row-fluid">
+            <div class="span4">
+              <h2>Set Color</h2>
+              <p><input type='text' class="basic" id="pick"/></p>
+            </div><!--/span-->
+            <div class="span4">
+              <h2>Actions</h2>
+              <p>
+<a href="/flash?r=255&g=0&b=0&times=2&delay=0.25" class="btn">Flash Red</a> 
+<a href="/flash?r=0&g=255&b=0&times=2&delay=0.25" class="btn">Flash Green</a> 
+<a href="/flash?r=0&g=0&b=255&times=2&delay=0.25" class="btn">Flash Blue</a> 
+</p>
+            </div><!--/span-->
+            <div class="span4">
+              <h2>Set Scheme</h2>
+              <p>
 """
         for key in schemePresets.keys():
-            out += '<input type="button" url="/scheme?preset=%s" class="ajaxify" value="%s" /> ' % (quote_plus(key), key)
+            out += '<a href="/scheme?preset=%s" class="btn">%s</a> ' % (quote_plus(key), key)
         out += """
-<br />
-<input type="button" url="/flash?r=255&g=0&b=0&times=2&delay=0.25" class="ajaxify" value="Flash Red" /> 
-<input type="button" url="/flash?r=0&g=255&b=0&times=2&delay=0.25" class="ajaxify" value="Flash Green" /> 
-<input type="button" url="/flash?r=0&g=0&b=255&times=2&delay=0.25" class="ajaxify" value="Flash Blue" /> 
-</div>
-<div id="response" style="background-color:white">test</div>
-<script>
-function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
-$("#pick").spectrum({
-color: "#f00",
-change: function(color) {
-    $('#response').load('/color?r='+hexToR(color.toHexString())+'&g='+hexToG(color.toHexString())+'&b='+hexToB(color.toHexString()))
-},
-flat: true
+</p>
+            </div><!--/span-->
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
 
-});
-$('.ajaxify').click(function(e) {
-e.preventDefault();
-$('#response').load($(this).attr('url'));
-});
-</script>"""
+      <hr>
+
+      <footer>
+        <p id="response"></p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="js/spectrum.js"></script>
+    <script>
+        function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+        function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+        function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+        function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+        $("#pick").spectrum({
+            color: "#f00",
+            change: function(color) {
+                $('#response').load('/color?r='+hexToR(color.toHexString())+'&g='+hexToG(color.toHexString())+'&b='+hexToB(color.toHexString()))
+            },
+            flat: true
+        });
+        $('.btn').click(function(e) {
+            e.preventDefault();
+            $('#response').load($(this).attr('href'));
+            return false;
+        });
+    </script>
+
+  </body>
+</html>
+"""
         return out
