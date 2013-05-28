@@ -28,12 +28,8 @@ class LightInterface():
             #print event
             if event == None:
                 if len(self.scheme) == 1:
-                    if not self.scheme[0] == self.current:
-                        print "Single color, needs update"
-                        self.fadeTo(self.scheme[0][0], self.scheme[0][1], self.scheme[0][2], self.fadetime)
-                    else:
-                        print "Single color, no update"
-                        sleep(1)
+                    print "Single color, running update anyways"
+                    self.fadeTo(self.scheme[0][0], self.scheme[0][1], self.scheme[0][2], self.fadetime)
                 else:
                     print "No actions in queue, doing random fade."
                     fadeto = randint(0,len(self.scheme)-1)
