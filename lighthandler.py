@@ -11,7 +11,7 @@ from root import RootResource
 from getcolor import GetColorResource
 from setintensity import SetIntensityResource
 
-from schemesettings import schemePresets, schemeDefault
+from settings import schemePresets, schemeDefault
 from lightinterface import LightInterface
 
 from sys import stdout
