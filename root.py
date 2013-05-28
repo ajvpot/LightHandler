@@ -2,6 +2,9 @@ from twisted.web import resource
 from schemesettings import schemePresets, schemeDefault
 from urllib import quote_plus
 
+def rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % rgb
+
 class RootResource(resource.Resource):
     def __init__(self, interface):
         self.interface = interface
@@ -18,6 +21,7 @@ class RootResource(resource.Resource):
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/spectrum.css" rel="stylesheet" type="text/css">
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/black-tie/jquery-ui.min.css" rel="stylesheet" type="text/css">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -58,6 +62,10 @@ class RootResource(resource.Resource):
         out += """
 </p>
             </div><!--/span-->
+                        <div class="span4">
+              <h2>Set Intensity</h2>
+              <p><div id="slider"></div></p>
+            </div><!--/span-->
           </div><!--/row-->
         </div><!--/span-->
       </div><!--/row-->
@@ -74,6 +82,7 @@ class RootResource(resource.Resource):
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="js/spectrum.js"></script>
     <script>
         function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
@@ -81,7 +90,7 @@ class RootResource(resource.Resource):
         function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
         function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
         $("#pick").spectrum({
-            color: "#f00",
+            color: '"""+rgb_to_hex((self.interface.current[0], self.interface.current[1], self.interface.current[2]))+"""',
             change: function(color) {
                 $('#response').load('/color?r='+hexToR(color.toHexString())+'&g='+hexToG(color.toHexString())+'&b='+hexToB(color.toHexString()))
             },
@@ -91,6 +100,15 @@ class RootResource(resource.Resource):
             e.preventDefault();
             $('#response').load($(this).attr('href'));
             return false;
+        });
+        $("#slider").slider({
+          min: 0,
+          max: 100,
+          step: 10,
+          value: """+str(self.interface.max*100)+""",
+          slide: function( event, ui ) {
+            $('#response').load('/setintensity?intensity='+ui.value)
+          }
         });
     </script>
 

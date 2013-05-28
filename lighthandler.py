@@ -9,6 +9,7 @@ from fadetime import FadetimeResource
 from queue import QueueResource
 from root import RootResource
 from getcolor import GetColorResource
+from setintensity import SetIntensityResource
 
 from schemesettings import schemePresets, schemeDefault
 from lightinterface import LightInterface
@@ -26,6 +27,7 @@ root.putChild('color', ColorResource(interface))
 root.putChild('fadetime', FadetimeResource(interface))
 root.putChild('getqueue', QueueResource(interface))
 root.putChild('getcolor', GetColorResource(interface))
+root.putChild('setintensity', SetIntensityResource(interface))
 root.putChild('', RootResource(interface))
 
 reactor.listenTCP(8080, server.Site(root))

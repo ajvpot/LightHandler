@@ -11,6 +11,7 @@ class LightInterface():
         self.fadetime = 100
         self.queue = []
         self.running = True
+        self.max = max
 
     def queueEvent(self, event):
         self.queue.append(event)
@@ -60,9 +61,9 @@ class LightInterface():
     def setLights(self, r,g,b):
         self.current = [r,g,b]
         #max = .5 # moved to settings
-        r = (max/255.0) * int(r)
-        g = (max/255.0) * int(g)
-        b = (max/255.0) * int(b)
+        r = (self.max/255.0) * int(r)
+        g = (self.max/255.0) * int(g)
+        b = (self.max/255.0) * int(b)
         os.system("echo %s=%s > /dev/pi-blaster" % (pins[0], r))
         os.system("echo %s=%s > /dev/pi-blaster" % (pins[1], g))
         os.system("echo %s=%s > /dev/pi-blaster" % (pins[2], b))
