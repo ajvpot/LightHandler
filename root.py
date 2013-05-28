@@ -1,5 +1,5 @@
 from twisted.web import resource
-from schemesettings import schemePresets, schemeDefault
+from settings import schemePresets, schemeDefault
 from urllib import quote_plus
 
 def rgb_to_hex(rgb):
