@@ -60,9 +60,10 @@ class LightInterface():
         r = (self.max/255.0) * int(r)
         g = (self.max/255.0) * int(g)
         b = (self.max/255.0) * int(b)
-        os.system("echo %s=%s > /dev/pi-blaster" % (pins[0], r))
-        os.system("echo %s=%s > /dev/pi-blaster" % (pins[1], g))
-        os.system("echo %s=%s > /dev/pi-blaster" % (pins[2], b))
+        #os.system("echo %s=%s > /dev/pi-blaster" % (pins[0], r))
+        #os.system("echo %s=%s > /dev/pi-blaster" % (pins[1], g))
+        #os.system("echo %s=%s > /dev/pi-blaster" % (pins[2], b))
+        os.system("echo 2="+str("%.3f" % b)+"'\n'5="+str("%.3f" % g)+"'\n'6="+str("%.3f" % r)+" > /dev/pi-blaster" )
     
     def fadeTo(self, r, g, b, fadetime, interruptable = True):
         rstep = (r - self.current[0]) / float(fadetime)
