@@ -2,12 +2,16 @@ from twisted.web import resource
 from settings import schemePresets, schemeDefault
 from urllib import quote_plus
 
+
 def rgb_to_hex(rgb):
     return '#%02x%02x%02x' % rgb
 
+
 class RootResource(resource.Resource):
+
     def __init__(self, interface):
         self.interface = interface
+
     def render_GET(self, request):
         out = """
 
@@ -48,9 +52,9 @@ class RootResource(resource.Resource):
             <div class="span4">
               <h2>Actions</h2>
               <p>
-<a href="/flash?r=255&g=0&b=0&times=2&delay=0.25" class="btn">Flash Red</a> 
-<a href="/flash?r=0&g=255&b=0&times=2&delay=0.25" class="btn">Flash Green</a> 
-<a href="/flash?r=0&g=0&b=255&times=2&delay=0.25" class="btn">Flash Blue</a> 
+<a href="/flash?r=255&g=0&b=0&times=2&delay=0.25" class="btn">Flash Red</a>
+<a href="/flash?r=0&g=255&b=0&times=2&delay=0.25" class="btn">Flash Green</a>
+<a href="/flash?r=0&g=0&b=255&times=2&delay=0.25" class="btn">Flash Blue</a>
 </p>
             </div><!--/span-->
             <div class="span4">
@@ -58,7 +62,8 @@ class RootResource(resource.Resource):
               <p>
 """
         for key in schemePresets.keys():
-            out += '<a href="/scheme?preset=%s" class="btn">%s</a> ' % (quote_plus(key), key)
+            out += '<a href="/scheme?preset=%s" class="btn">%s</a> ' % (
+                quote_plus(key), key)
         out += """
 </p>
             </div><!--/span-->
@@ -90,7 +95,7 @@ class RootResource(resource.Resource):
         function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
         function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
         $("#pick").spectrum({
-            color: '"""+rgb_to_hex((self.interface.current[0], self.interface.current[1], self.interface.current[2]))+"""',
+            color: '""" + rgb_to_hex((self.interface.current[0], self.interface.current[1], self.interface.current[2])) + """',
             change: function(color) {
                 $('#response').load('/color?r='+hexToR(color.toHexString())+'&g='+hexToG(color.toHexString())+'&b='+hexToB(color.toHexString()))
             },
@@ -105,7 +110,7 @@ class RootResource(resource.Resource):
           min: 0,
           max: 100,
           step: 10,
-          value: """+str(self.interface.max*100)+""",
+          value: """ + str(self.interface.max * 100) + """,
           slide: function( event, ui ) {
             $('#response').load('/setintensity?intensity='+ui.value)
           }

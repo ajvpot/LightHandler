@@ -1,8 +1,11 @@
 from twisted.web import resource
 
+
 class FlashResource(resource.Resource):
+
     def __init__(self, interface):
         self.interface = interface
+
     def render_GET(self, request):
         r = int(request.args["r"][0])
         g = int(request.args["g"][0])
