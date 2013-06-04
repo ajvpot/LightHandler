@@ -40,15 +40,9 @@ class LightInterface():
                     print "No actions in queue, doing random fade."
                     fadeto = randint(0, len(self.scheme) - 1)
                     self.fadeTo(
-                        self.scheme[
-                            fadeto][
-                                0],
-                        self.scheme[
-                            fadeto][
-                                1],
-                        self.scheme[
-                            fadeto][
-                                2],
+                        self.scheme[fadeto][0],
+                        self.scheme[fadeto][1],
+                        self.scheme[fadeto][2],
                         self.fadetime)
             elif event[0] == "flash":
                 print "running flash event"
@@ -79,11 +73,7 @@ class LightInterface():
         # os.system("echo %s=%s > /dev/pi-blaster" % (pins[0], r))
         # os.system("echo %s=%s > /dev/pi-blaster" % (pins[1], g))
         # os.system("echo %s=%s > /dev/pi-blaster" % (pins[2], b))
-        os.system(
-            "echo 2=" + str("%.3f" %
-                            b) + "'\n'5=" + str("%.3f" %
-                                                g) + "'\n'6=" + str("%.3f" %
-                                                                    r) + " > /dev/pi-blaster")
+        os.system("echo 2=" + str("%.3f" % b) + "'\n'5=" + str("%.3f" % g) + "'\n'6=" + str("%.3f" % r) + " > /dev/pi-blaster") # ToDo: Fix formatting in this line
 
     def fadeTo(self, r, g, b, fadetime, interruptable=True):
         rstep = (r - self.current[0]) / float(fadetime)
@@ -91,18 +81,12 @@ class LightInterface():
         bstep = (b - self.current[2]) / float(fadetime)
         for i in range(fadetime):
             self.setLights(
-                self.current[
-                    0] + rstep,
-                self.current[
-                    1] + gstep,
-                self.current[
-                    2] + bstep)
+                self.current[0] + rstep,
+                self.current[1] + gstep,
+                self.current[2] + bstep)
             sleep(0.0001)
             if len(self.queue) > 0 and interruptable:  # interrupt if there's more important stuff to do
                 print "Fade interrupted by %s" % self.queue[0][0]
                 return
-        self.current = [
-            r,
-            g,
-            b]  # sometimes step doesn't quite set this correctly
+        self.current = [r, g, b]  # sometimes step doesn't quite set this correctly
         sleep(1)
