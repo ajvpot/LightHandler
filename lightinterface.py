@@ -73,7 +73,7 @@ class LightInterface():
         # os.system("echo %s=%s > /dev/pi-blaster" % (pins[0], r))
         # os.system("echo %s=%s > /dev/pi-blaster" % (pins[1], g))
         # os.system("echo %s=%s > /dev/pi-blaster" % (pins[2], b))
-        os.system("echo 2=" + str("%.3f" % b) + "'\n'5=" + str("%.3f" % g) + "'\n'6=" + str("%.3f" % r) + " > /dev/pi-blaster") # ToDo: Fix formatting in this line
+        os.system("echo 2=" + str("%.3f" % b) + "'\n'5=" + str("%.3f" % g) + "'\n'6=" + str("%.3f" % r) + " > /dev/pi-blaster") # ToDo: Fix formatting in this line, add pin config
 
     def fadeTo(self, r, g, b, fadetime, interruptable=True):
         rstep = (r - self.current[0]) / float(fadetime)
