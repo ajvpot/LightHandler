@@ -1,3 +1,5 @@
+import os
+
 from twisted.web import server, resource, static
 from twisted.internet import reactor, task
 from twisted.internet import threads
@@ -17,6 +19,8 @@ from lightinterface import LightInterface
 from sys import stdout
 from twisted.python.log import startLogging
 startLogging(stdout)
+
+os.chdir(os.path.dirname(__file__))
 
 interface = LightInterface()
 
